@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 
-from sqlalchemy import DateTime, Float, ForeignKey, Integer, String, Text, UniqueConstraint
+from sqlalchemy import JSON, DateTime, Float, ForeignKey, Integer, String, Text, UniqueConstraint
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 
 
@@ -57,3 +57,16 @@ class BathReading(Base):
     water_temp_c: Mapped[float] = mapped_column(Float)
     operator: Mapped[str] = mapped_column(String(64), default="")
     basin: Mapped[Basin] = relationship(back_populates="readings")
+
+
+class OperatorFilter(Base):
+    """采样人过滤：全库只存一版（单行 SINGLETON_ID），温谱与台账共用。"""
+
+    __tablename__ = "operator_filter"
+
+    SINGLETON_ID = 1
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    operators: Mapped[list] = mapped_column(JSON, default=list)
+    updated_by: Mapped[str] = mapped_column(String(64), default="")
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)

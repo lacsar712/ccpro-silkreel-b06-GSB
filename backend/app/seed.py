@@ -35,25 +35,27 @@ async def seed_demo() -> None:
         session.add(mill)
         await session.flush()
         now = utcnow()
+        # (汤温, 操作人, 几小时前)；每盆最近一条保持 worker 原值不动，
+        # admin 的记录更早，只用于让采样人过滤有多人可勾。
         specs = [
-            ("甲-1", Basin.STATUS_REELING, 40.5, 0),
-            ("甲-2", Basin.STATUS_SOAKING, None, 1),
-            ("乙-1", Basin.STATUS_REELED, 39.2, 2),
-            ("乙-2", Basin.STATUS_REELING, 36.0, 3),
-            ("丙-1", Basin.STATUS_SOAKING, None, 4),
-            ("丙-2", Basin.STATUS_REELED, 41.0, 5),
+            ("甲-1", Basin.STATUS_REELING, 0, [(40.5, "worker", 2), (39.6, "admin", 5)]),
+            ("甲-2", Basin.STATUS_SOAKING, 1, []),
+            ("乙-1", Basin.STATUS_REELED, 2, [(39.2, "worker", 2), (38.4, "admin", 6)]),
+            ("乙-2", Basin.STATUS_REELING, 3, [(36.0, "worker", 2), (35.5, "admin", 5)]),
+            ("丙-1", Basin.STATUS_SOAKING, 4, []),
+            ("丙-2", Basin.STATUS_REELED, 5, [(41.0, "worker", 2), (40.8, "admin", 6)]),
         ]
-        for code, status, temp, idx in specs:
+        for code, status, idx, readings in specs:
             basin = Basin(filature_id=mill.id, code=code, status=status, ring_index=idx)
             session.add(basin)
             await session.flush()
-            if temp is not None:
+            for temp, operator, hours_ago in readings:
                 session.add(
                     BathReading(
                         basin_id=basin.id,
                         water_temp_c=temp,
-                        operator="worker",
-                        taken_at=now - timedelta(hours=2),
+                        operator=operator,
+                        taken_at=now - timedelta(hours=hours_ago),
                     )
                 )
         await session.commit()

@@ -58,6 +58,95 @@ button, input {
   margin: 4px 6px 4px 0;
 }
 .err { color: #b42318; }
+.ok { color: #2f6f3e; }
 .hint { color: #6b5a48; font-size: 0.92em; }
 label { display: block; margin: 8px 0; }
-.topbar { display: flex; justify-content: space-between; align-items: baseline; }
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 20px;
+  background: #fffaf0;
+  border-bottom: 1px solid #e4d8bf;
+}
+.topbar .brand { letter-spacing: 0.12em; font-size: 1.05em; }
+.nav { display: flex; gap: 6px; }
+.tab {
+  border: 1px solid transparent;
+  background: transparent;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.tab.active {
+  border-color: var(--gold);
+  background: #f7ead0;
+  font-weight: 600;
+}
+.logout { cursor: pointer; }
+.yardhead h1 { margin-bottom: 4px; }
+.yardhead p { margin-top: 0; color: #6b5a48; }
+.spectrum, .ledger {
+  margin-top: 28px;
+  background: #fff;
+  border: 1px solid #e4d8bf;
+  border-radius: 12px;
+  padding: 14px 18px;
+}
+.spectrum h2, .ledger h2 { margin: 0 0 10px; font-size: 1.1em; letter-spacing: 0.1em; }
+.strip {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+}
+.tick {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 74px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 12px;
+}
+.tick strong { font-size: 14px; }
+.tick.cool { background: var(--soak); }
+.tick.good { background: var(--done); }
+.tick.hot { background: var(--reel); }
+.ledger table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95em;
+}
+.ledger th, .ledger td {
+  text-align: left;
+  padding: 6px 10px;
+  border-bottom: 1px solid #efe6d2;
+}
+.ledger th { color: #6b5a48; font-weight: 600; }
+.empty { color: #8a7a64; font-style: italic; }
+.filterpage {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 32px 20px 60px;
+}
+.oplist {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0;
+  background: #fff;
+  border: 1px solid #e4d8bf;
+  border-radius: 12px;
+}
+.oplist li { border-bottom: 1px solid #efe6d2; }
+.oplist li:last-child { border-bottom: none; }
+.oplist label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  padding: 10px 14px;
+  cursor: pointer;
+}

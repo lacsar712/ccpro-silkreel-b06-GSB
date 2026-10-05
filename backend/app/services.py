@@ -10,6 +10,10 @@ class RuleError(ValueError):
     pass
 
 
+class ForbiddenError(PermissionError):
+    pass
+
+
 def latest_temp(basin: Basin) -> float | None:
     if not basin.readings:
         return None
@@ -30,3 +34,25 @@ def assert_can_set_status(basin: Basin, new_status: str) -> None:
         raise RuleError(
             f"最近汤温 {temp}℃ 不在 {MIN_TEMP:.0f}～{MAX_TEMP:.0f}℃，不能标已缫完"
         )
+
+
+def assert_can_edit_filter(user) -> None:
+    """采样人过滤只准管理员保存。"""
+    if getattr(user, "role", "") != "admin":
+        raise ForbiddenError("仅管理员可保存采样人过滤")
+
+
+def normalize_operators(raw) -> list[str]:
+    """清洗提交的勾选：去空白、去重、保序；不改任何已记下的汤温。"""
+    if not isinstance(raw, list):
+        raise RuleError("operators 必须是字符串数组")
+    seen: set[str] = set()
+    out: list[str] = []
+    for item in raw:
+        if not isinstance(item, str):
+            raise RuleError("operators 必须是字符串数组")
+        name = item.strip()
+        if name and name not in seen:
+            seen.add(name)
+            out.append(name)
+    return out

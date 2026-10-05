@@ -29,6 +29,14 @@
 
 盆状态不可标成「已缫完」，除非该盆**最近一条**汤温记录落在 **38～42℃**。规则在 `backend/app/services.py`。
 
+## 采样人过滤
+
+- 顶栏挂「环盆作业台」与「采样人过滤」两页。
+- 管理员在「采样人过滤」勾选要看的操作人并保存；全库只存一版（`operator_filter` 单行，两名主管同时提交时只留一版）。
+- 保存后环盆底下的「温谱」与「温谱台账」只出现被勾中的操作人；一个都不勾时两边都是空表，不塞假行。
+- 勾选只写过滤那一行，不改动任何已记下的汤温数字。
+- 相关接口：`GET /api/operators`、`GET/PUT /api/operator-filter`（PUT 仅管理员）、`GET /api/readings/spectrum`、`GET /api/readings/ledger`。
+
 ## 快速启动
 
 ```bash
