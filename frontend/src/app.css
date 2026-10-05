@@ -13,7 +13,7 @@ body {
   background: radial-gradient(circle at 50% 20%, #fff8e8, var(--paper));
   color: var(--ink);
 }
-.login, .yard {
+.login, .yard, .filterpage {
   max-width: 920px;
   margin: 0 auto;
   padding: 32px 20px 60px;
@@ -61,3 +61,157 @@ button, input {
 .hint { color: #6b5a48; font-size: 0.92em; }
 label { display: block; margin: 8px 0; }
 .topbar { display: flex; justify-content: space-between; align-items: baseline; }
+
+/* 顶栏导航 */
+.shell { min-height: 100vh; }
+.topnav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: #fffdf6;
+  border-bottom: 1px solid #e4d8bf;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.navspacer { flex: 1; }
+.navbtn {
+  margin: 0;
+  border: 1px solid #d9cba8;
+  background: transparent;
+  border-radius: 999px;
+  padding: 6px 16px;
+  cursor: pointer;
+  color: var(--ink);
+}
+.navbtn.active {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: #fff;
+  font-weight: 600;
+}
+
+/* 卡片（温谱 / 台账 / 过滤页） */
+.card {
+  background: #fcfcfb;
+  border: 1px solid #e4d8bf;
+  border-radius: 12px;
+  padding: 18px 20px;
+  margin: 20px 0;
+}
+.card h2 { margin: 0 0 4px; font-size: 1.15em; }
+.viz-sub {
+  margin: 0 0 12px;
+  color: #52514e;
+  font-size: 0.92em;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+.viz-empty {
+  padding: 36px 0;
+  text-align: center;
+  color: #898781;
+  border: 1px dashed #d9d6cc;
+  border-radius: 8px;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+/* 温谱 */
+.viz-root { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  list-style: none;
+  margin: 0 0 10px;
+  padding: 0;
+  font-size: 13px;
+  color: #52514e;
+}
+.legend li { display: inline-flex; align-items: center; gap: 6px; }
+.legend em { font-style: normal; color: #898781; font-size: 12px; }
+.legendkey {
+  width: 14px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--c);
+  display: inline-block;
+}
+.svg-wrap { position: relative; }
+.viz-card svg { width: 100%; height: auto; display: block; }
+.viz-card .grid { stroke: #e1e0d9; stroke-width: 1; }
+.viz-card .axisline { stroke: #c3c2b7; stroke-width: 1; }
+.viz-card .axis { fill: #898781; font-size: 11px; font-variant-numeric: tabular-nums; }
+.viz-card .band { fill: #1baf7a; opacity: 0.08; }
+.viz-card .bandlabel { fill: #6a8f71; font-size: 11px; }
+.viz-card .crosshair { stroke: #898781; stroke-width: 1; opacity: 0.5; }
+.tooltip {
+  position: absolute;
+  transform: translate(-50%, calc(-100% - 12px));
+  background: #1d2433;
+  color: #fff;
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  white-space: nowrap;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+}
+.tooltip span { color: #cfd6e4; }
+
+/* 台账 */
+.ledger {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.ledger th, .ledger td {
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 1px solid #eceae2;
+}
+.ledger th {
+  color: #52514e;
+  font-weight: 600;
+  background: #f7f5ef;
+}
+.ledger td.num, .ledger th.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.ledger tbody tr:last-child td { border-bottom: none; }
+
+/* 过滤页 */
+.oprow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 6px 0;
+  padding: 10px 12px;
+  border: 1px solid #e4d8bf;
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+}
+.oprow input { margin: 0; width: 16px; height: 16px; }
+.opname { font-weight: 600; }
+.opcount { margin-left: auto; color: #898781; font-size: 0.9em; }
+.pickline {
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  color: #52514e;
+  font-size: 0.92em;
+}
+.pickline.warn { color: #b45309; font-weight: 600; }
+.actions { margin-top: 12px; }
+.primary {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: #fff;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.primary:disabled { opacity: 0.5; cursor: default; }

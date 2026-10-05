@@ -1,6 +1,7 @@
 from datetime import datetime, timezone
+from typing import Optional
 
-from sqlalchemy import DateTime, Float, ForeignKey, Integer, String, Text, UniqueConstraint
+from sqlalchemy import JSON, DateTime, Float, ForeignKey, Integer, String, Text, UniqueConstraint
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 
 
@@ -57,3 +58,19 @@ class BathReading(Base):
     water_temp_c: Mapped[float] = mapped_column(Float)
     operator: Mapped[str] = mapped_column(String(64), default="")
     basin: Mapped[Basin] = relationship(back_populates="readings")
+
+
+class OperatorFilter(Base):
+    """采样人过滤的全局唯一版本：singleton_id 恒为 1。
+
+    selected 为 None 表示从未保存（默认全员可见）；保存过之后是操作人用户名
+    列表，空列表即「一个都不勾」，温谱与台账都为空。
+    """
+
+    __tablename__ = "operator_filters"
+
+    singleton_id: Mapped[int] = mapped_column(Integer, primary_key=True, default=1)
+    selected: Mapped[Optional[list]] = mapped_column(JSON, nullable=True)
+    version: Mapped[int] = mapped_column(Integer, default=1)
+    updated_by: Mapped[str] = mapped_column(String(64), default="")
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)

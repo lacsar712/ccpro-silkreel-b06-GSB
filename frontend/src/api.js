@@ -22,7 +22,10 @@ export async function api(path, options = {}) {
   const res = await fetch(path, { ...options, headers });
   const data = await res.json().catch(() => ({}));
   if (!res.ok) {
-    throw new Error(data.detail || "请求失败");
+    const err = new Error(data.detail || "请求失败");
+    err.status = res.status;
+    err.data = data;
+    throw err;
   }
   return data;
 }
